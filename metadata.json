@@ -1,0 +1,6 @@
+{
+  "name": "Code Quality Gatekeeper",
+  "description": "Automated, objective static code analyzer and quality assurance gatekeeper enforcing bug reports and production-ready code refactoring.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
