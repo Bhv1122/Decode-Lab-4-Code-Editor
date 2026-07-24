@@ -6,6 +6,7 @@ import { BugReportView } from "./components/BugReportView";
 import { RefactoredCodeView } from "./components/RefactoredCodeView";
 import { CodeDiffView } from "./components/CodeDiffView";
 import { AuditHistoryModal } from "./components/AuditHistoryModal";
+import { ComplexityDisplay } from "./components/ComplexityDisplay";
 
 import {
   AuditOptions,
@@ -99,7 +100,7 @@ export default function App() {
       }
 
       const duration = Math.round(performance.now() - startTime);
-      const parsedResult = parseAuditResponse(data.rawOutput, duration);
+      const parsedResult = parseAuditResponse(data.rawOutput, duration, code);
 
       setAuditResult(parsedResult);
       setActiveTab("audit");
@@ -273,6 +274,12 @@ export default function App() {
             ) : auditResult ? (
               activeTab === "audit" ? (
                 <div className="flex flex-col gap-4">
+                  {/* Cyclomatic Complexity Score Display */}
+                  <ComplexityDisplay
+                    originalComplexity={auditResult.originalComplexity}
+                    refactoredComplexity={auditResult.refactoredComplexity}
+                  />
+
                   {/* Bug Report Card */}
                   <BugReportView
                     bugReport={auditResult.bugReport}

@@ -1,3 +1,5 @@
+import { ComplexityMetrics } from "./utils/complexityCalculator";
+
 export type SupportedLanguage =
   | "auto"
   | "typescript"
@@ -34,6 +36,8 @@ export interface AuditResult {
   rawOutput: string;
   timestamp: string;
   executionTimeMs: number;
+  originalComplexity?: ComplexityMetrics;
+  refactoredComplexity?: ComplexityMetrics;
 }
 
 export interface AuditHistoryEntry {

@@ -1,6 +1,11 @@
 import { AuditResult, BugItem } from "../types";
+import { calculateCyclomaticComplexity } from "./complexityCalculator";
 
-export function parseAuditResponse(rawText: string, executionTimeMs: number): AuditResult {
+export function parseAuditResponse(
+  rawText: string,
+  executionTimeMs: number,
+  originalCode?: string
+): AuditResult {
   let bugReportRawText = "";
   let refactoredCode = "";
   let refactoredLanguage = "typescript";
@@ -25,6 +30,10 @@ export function parseAuditResponse(rawText: string, executionTimeMs: number): Au
       refactoredCode = blockText.replace(/^```[a-zA-Z0-9_+#-]*\n?/, "").replace(/```$/, "").trim();
     }
   }
+
+  // Calculate Cyclomatic Complexity
+  const originalComplexity = originalCode ? calculateCyclomaticComplexity(originalCode) : undefined;
+  const refactoredComplexity = refactoredCode ? calculateCyclomaticComplexity(refactoredCode) : undefined;
 
   // Parse bug report lines into structured BugItem objects
   const bugItems: BugItem[] = [];
@@ -105,5 +114,7 @@ export function parseAuditResponse(rawText: string, executionTimeMs: number): Au
     rawOutput: rawText,
     timestamp: new Date().toLocaleTimeString(),
     executionTimeMs,
+    originalComplexity,
+    refactoredComplexity,
   };
 }
